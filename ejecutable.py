@@ -7,14 +7,19 @@ def pedir_mostrar_cadena():
     while centinela:
         cadena_adn = []
         for i in range(6):
-            fila = str(input(f"Fila {i + 1}: ")).split()
-            cadena_adn.append(fila)
+            while True:
+                fila = str(input(f"Fila {i + 1}: ")).upper()
+                fila.split()
+                if all(base in ["A","C","G","T"] for base in fila) and len(fila)==6:
+                    cadena_adn.append(fila)
+                    break
+                else:
+                    print("Error: Solo se permiten las bases A, C, G y T, y cada fila debe tener exactamente 6 bases.")
         print("La cadena ingresada es:")
         for j in range(6):
             print(f"{cadena_adn[j]}\n")
-
         try:
-            op = input("Es correcta esta cadena?: [S/N]").lower()
+            op = input("Es correcta esta cadena?: [S/N]: ").lower()
             if op == "s":
                 centinela = False
             elif op != "n":
@@ -27,9 +32,11 @@ def menu():
     try:
         print("""
             ****Cadenas De ADN****
-            Menu: [Una vez ingreses la cadena de ADN se desbloquearan opciones nuevas]
-            1. Ingresar cadena de ADN""")
-        op = input("Ingresa una opcion: ")
+Menu: [Una vez ingreses la cadena de ADN se desbloquearan opciones nuevas]
+1. Ingresar cadena de ADN
+
+""")
+        op = str(input("Ingresa una opcion: "))
         if op == "1":  # Cambiar '1' a cadena
             adn = pedir_mostrar_cadena()
             menu_adn(adn)
@@ -39,18 +46,15 @@ def menu():
         print(f"Error: {e}")
 
 def menu_adn(adn):
-    print("""
-    2. Detectar mutaciones
-    3. Mutar ADN
-    4. Sanar ADN
-    5. Salir""")
     try:
         while True:
-            print("""
-                   2. Detectar mutaciones
-                   3. Mutar ADN
-                   4. Sanar ADN
-                   5. Salir""")
+            print("""\n
+2. Detectar mutaciones
+3. Mutar ADN
+4. Sanar ADN
+5. Salir
+
+""")
             try:
                 op = int(input("Dime que quieres hacer? [2|3|4|5]: "))
                 if op == 2:
@@ -58,10 +62,10 @@ def menu_adn(adn):
                     detectar_mutacion = detector.detectar_mutaciones(adn)
                     print(f"\nResultados de la detección: {detectar_mutacion}")
                 elif op == 3:
-                    # Aquí va la logica para mutar ADN
+                    # Aca va la logica para mutar ADN
                     pass
                 elif op == 4:
-                    # Aquí va la logica para sanar ADN
+                    # Aca va la logica para sanar ADN
                     pass
                 elif op == 5:
                     print("Saliendo del programa...")
@@ -79,3 +83,5 @@ def menu_adn(adn):
 
 def main():
     menu()
+
+main()
