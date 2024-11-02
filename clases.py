@@ -124,7 +124,7 @@ class Sanador:
         self.mutada = mutada
 
     def sanar_mutacion(self, adn):
-        adn_sanado = []
+        
         for i in range(6):
             adn[i] = list(adn[i])
             random.shuffle(adn[i])
