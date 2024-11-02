@@ -135,7 +135,6 @@ class Sanador:
                 adn[i] = list(adn[i])
                 random.shuffle(adn[i])
                 adn[i] = ''.join(adn[i])
-                print("se uso este bucle")
                 
         self.mutada = False
         return adn
