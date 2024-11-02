@@ -1,3 +1,4 @@
+import random
 
 class Detector:
     mutacion: bool = False
@@ -118,4 +119,23 @@ class Virus(Mutador):
     pass
 
 class Sanador:
-    pass
+    def __init__(self, adn, mutada):
+        self.adn = adn
+        self.mutada = mutada
+
+    def sanar_mutacion(self, adn):
+        adn_sanado = []
+        for i in range(6):
+            adn[i] = list(adn[i])
+            random.shuffle(adn[i])
+            adn[i] = ''.join(adn[i])
+        
+        while Detector.detectar_diagonal(self, adn) or Detector.detectar_horizontal(self, adn) or Detector.detectar_vertical(self, adn):
+            for i in range(6):
+                adn[i] = list(adn[i])
+                random.shuffle(adn[i])
+                adn[i] = ''.join(adn[i])
+                print("se uso este bucle")
+                
+        self.mutada = False
+        return adn
