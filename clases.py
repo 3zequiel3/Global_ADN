@@ -109,8 +109,37 @@ class Detector:
             return f"No se detecto ninguna mutacion"
 
 
+#--------------------------------------------------------------------------------------------------------
+#Mutaqdor
+
 class Mutador:
-    pass
+    def __init__(self, base_nitrogenada, coordenadas=[]):
+        try:
+            # validamos que las bases nitrogenadas sean una opcion corrects A T C o G
+            if base_nitrogenada not in {'A', 'T', 'C', 'G'}:
+                raise ValueError("La base nitrogenada debe ser una de las siguientes: 'A', 'T', 'C', 'G'.")
+            self.base_nitrogenada = base_nitrogenada
+
+            # validamos que las coordenadas esten detnro de la matriz de 6x6, osea los valores de 0 a 5
+            for coord in coordenadas:
+                if not (0 <= coord[0] < 6 and 0 <= coord[1] < 6):
+                    raise ValueError("Las coordenadas deben estar dentro de los límites de la matriz (0 a 5).")
+            self.coordenadas = coordenadas
+            
+            # estado de la mutazion, lo dejamos como un booleano que nos puede servir para mostrar un mensaje si la matriz fue mutada
+            self.mutacion_realizada = False
+
+        except ValueError as e:
+            print(f"Error al inicializar Mutador: {e}")
+    
+    # el metodo esta vacio para ser implementado en una subclase (radiacion o virus)
+    def crear_mutante(self):
+        pass  
+
+
+#--------------------------------------------------------------------------------------------------------
+
+
 
 class Radiacion(Mutador):
     pass
