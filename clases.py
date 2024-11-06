@@ -1,4 +1,5 @@
 import random
+import string
 
 class Detector:
     mutacion: bool = False
@@ -147,23 +148,24 @@ class Radiacion(Mutador):
 class Virus(Mutador):
     pass
 
-class Sanador:
+class Sanador(Detector):
     def __init__(self, adn, mutada):
         self.adn = adn
         self.mutada = mutada
 
     def sanar_mutacion(self, adn):
         
-        for i in range(6):
-            adn[i] = list(adn[i])
-            random.shuffle(adn[i])
-            adn[i] = ''.join(adn[i])
+         # Usar solo las letras A, T, C, G  
+        nuevas_letras = ['A', 'T', 'C', 'G']  
         
-        while Detector.detectar_diagonal(self, adn) or Detector.detectar_horizontal(self, adn) or Detector.detectar_vertical(self, adn):
-            for i in range(6):
-                adn[i] = list(adn[i])
-                random.shuffle(adn[i])
-                adn[i] = ''.join(adn[i])
-                
-        self.mutada = False
-        return adn
+        # Reemplazar cada letra por una nueva letra aleatoria  
+        for i in range(len(adn)):  
+            adn[i] = ''.join(random.choice(nuevas_letras) for _ in range(len(adn[i])))  
+
+        #Detectar si el adn sano no tiene mutaciones
+        while Detector.detectar_diagonal_ascendente(self, adn) or Detector.detectar_diagonal_ascendente(self, adn) or Detector.detectar_horizontal(self, adn) or Detector.detectar_vertical(self, adn):
+            for i in range(len(adn)):  
+                adn[i] = ''.join(random.choice(nuevas_letras) for _ in range(len(adn[i]))) 
+
+        self.mutada = False  
+        return adn  
