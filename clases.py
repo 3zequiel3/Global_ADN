@@ -125,63 +125,11 @@ class Mutador:
         # metodo vacio para ser usado en las clases hijas
         pass
 
-
-
 #--------------------------------------------------------------------------------------------------------
-
-# class Radiacion(Mutador):
-    
-    #   Esto lo habia escrito Enzo
-    
-    # def __init__(self, adn):
-    #     """
-    #     Constructor de la clase Radiacion.
-    #     :param adn: La matriz de ADN que se va a mutar.
-    #     """
-    #     super().__init__(adn)
-
-    # def crear_mutante(self, posicion_inicial, orientacion_de_la_mutacion):
-    #     """
-    #     Crea un mutante en la matriz dependiendo de la orientación (horizontal o vertical)
-    #     y genera 4 bases nitrogenadas 'T' consecutivas en la posición inicial.
-    #     :param posicion_inicial: La posición donde empieza la mutación (tupla de fila, columna).
-    #     :param orientacion_de_la_mutacion: Dirección de la mutación: "horizontal" o "vertical".
-    #     :return: La matriz de ADN mutada.
-    #     """
-    #     base_nitrogenada = 'T'
-
-    #     # Creamos una copia de la matriz para no modificar la original
-    #     matriz_mutada = [fila[:] for fila in self.adn]
-
-    #     # Validamos la orientación
-    #     if orientacion_de_la_mutacion == "horizontal":
-    #         fila, columna = posicion_inicial
-    #         # Verificar si hay espacio para las 4 bases 'T' consecutivas
-    #         if 0 <= fila < 6 and 0 <= columna < 6 and columna + 3 < 6:
-    #             # Colocamos las 4 bases 'T' consecutivas
-    #             for i in range(columna, columna + 4):
-    #                 matriz_mutada[fila][i] = base_nitrogenada
-    #         else:
-    #             raise ValueError("No hay suficiente espacio horizontal para colocar 4 bases 'T' consecutivas.")
-
-    #     elif orientacion_de_la_mutacion == "vertical":
-    #         fila, columna = posicion_inicial
-    #         # Verificar si hay espacio para las 4 bases 'T' consecutivas
-    #         if 0 <= columna < 6 and 0 <= fila < 6 and fila + 3 < 6:
-    #             # Colocamos las 4 bases 'T' consecutivas
-    #             for i in range(fila, fila + 4):
-    #                 matriz_mutada[i][columna] = base_nitrogenada
-    #         else:
-    #             raise ValueError("No hay suficiente espacio vertical para colocar 4 bases 'T' consecutivas.")
-
-    #     else:
-    #         raise ValueError("La orientación debe ser 'horizontal' o 'vertical'.")
-
-    #     return matriz_mutada
     
     
     
-    # ----------------------  nueva Clase Radiacion -----------------------------------
+# ----------------------  nueva Clase Radiacion -----------------------------------
 class Radiacion(Mutador):
     
     def __init__(self, matriz_adn, base_nitrogenada, intensidad_mutacion, direccion):
