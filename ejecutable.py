@@ -10,7 +10,7 @@ def pedir_mostrar_cadena():
             while True:
                 fila = str(input(f"Fila {i + 1}: ")).upper()
                 fila.split()
-                if all(base in ["A","C","G","T"] for base in fila) and len(fila)==6:
+                if all(base in ["A", "C", "G", "T"] for base in fila) and len(fila) == 6:
                     cadena_adn.append(fila)
                     break
                 else:
@@ -55,6 +55,7 @@ def menu_adn(adn):
 5. Salir
 
 """)
+            # hasta aca adn es la variable donde se tiene guardada la matriz
             try:
                 op = int(input("Dime que quieres hacer? [2|3|4|5]: "))
                 if op == 2:
@@ -62,8 +63,61 @@ def menu_adn(adn):
                     detectar_mutacion = detector.detectar_mutaciones(adn)
                     print(f"\nResultados de la detección: {detectar_mutacion}")
                 elif op == 3:
-                    # Aca va la logica para mutar ADN
-                    pass
+                    #---------------------- MUTADOR --------------------------
+                    print("\nInicia el proceso de mutación...")
+
+                    # pedir y valida base nitrogenada
+                    while True:
+                        base_nitrogenada = input("Ingrese la base nitrogenada para la mutación (A, C, G, T): ").strip().upper()
+                        if base_nitrogenada in ["A", "C", "G", "T"]:
+                            break
+                        else:
+                            print("Error: La base nitrogenada debe ser 'A', 'C', 'G' o 'T'. Intenta nuevamente.")
+
+                    # pedir y validar intensidad de mutacion
+                    while True:
+                        try:
+                            intensidad_mutacion = int(input("Ingrese la intensidad de la mutación (4, 5, 6): ").strip())
+                            if intensidad_mutacion in [4, 5, 6]:
+                                break
+                            else:
+                                print("Error: La intensidad debe ser 4, 5 o 6. Intenta nuevamente.")
+                        except ValueError:
+                            print("Error: Debes ingresar un número entero. Intenta nuevamente.")
+
+                    # elegir si la mutacion sera radiacion o virus
+                    while True:
+                        tipo_mutacion = input("¿Qué tipo de mutación deseas aplicar? (Radiacion o Virus): ").strip().lower()
+                        if tipo_mutacion in ["radiacion", "virus"]:
+                            break
+                        else:
+                            print("Error: Debes ingresar 'Radiacion' o 'Virus'. Intenta nuevamente.")
+
+                    # Aplicar mutación según el tipo
+                    if tipo_mutacion == "radiacion":
+                        while True:
+                            direccion = input("¿En qué dirección deseas realizar la mutación? (horizontal o vertical): ").strip().lower()
+                            if direccion in ["horizontal", "vertical"]:
+                                break
+                            else:
+                                print("Error: Debes ingresar 'horizontal' o 'vertical'. Intenta nuevamente.")
+
+                        mutacion = Radiacion(adn, base_nitrogenada, intensidad_mutacion, direccion)
+
+                    elif tipo_mutacion == "virus":
+                        mutacion = Virus(adn, base_nitrogenada, intensidad_mutacion)
+
+                    # Aplicar la mutación desde la posición inicial (0, 0)
+                    resultado = mutacion.crear_mutante((0, 0))
+
+                    # Mostrar el resultado de la mutación
+                    print("\nResultados de la mutación:")
+                    for fila in resultado:
+                        print(' '.join(fila))
+
+
+                    #---------------------- MUTADOR --------------------------
+
                 elif op == 4:
                     # Aca va la logica para sanar ADN
                     pass

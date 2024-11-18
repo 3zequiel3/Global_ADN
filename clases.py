@@ -111,84 +111,140 @@ class Detector:
 
 
 #--------------------------------------------------------------------------------------------------------
-#Mutaqdor
+#Mutador
 
 class Mutador:
-    def __init__(self, base_nitrogenada, coordenadas=[]):
-        try:
-            # validamos que las bases nitrogenadas sean una opcion corrects A T C o G
-            if base_nitrogenada not in {'A', 'T', 'C', 'G'}:
-                raise ValueError("La base nitrogenada debe ser una de las siguientes: 'A', 'T', 'C', 'G'.")
-            self.base_nitrogenada = base_nitrogenada
+    def __init__(self, matriz_adn, base_nitrogenada, intensidad_mutacion):
+        self.matriz_adn = matriz_adn
+        self.base_nitrogenada = base_nitrogenada
+        self.intensidad_mutacion = intensidad_mutacion
+        self.posicion_mutacion = (0, 0)  # Siempre comienza desde (0, 0)
 
-            # validamos que las coordenadas esten detnro de la matriz de 6x6, osea los valores de 0 a 5
-            for coord in coordenadas:
-                if not (0 <= coord[0] < 6 and 0 <= coord[1] < 6):
-                    raise ValueError("Las coordenadas deben estar dentro de los límites de la matriz (0 a 5).")
-            self.coordenadas = coordenadas
-            
-            # estado de la mutazion, lo dejamos como un booleano que nos puede servir para mostrar un mensaje si la matriz fue mutada
-            self.mutacion_realizada = False
 
-        except ValueError as e:
-            print(f"Error al inicializar Mutador: {e}")
-    
-    # el metodo esta vacio para ser implementado en una subclase (radiacion o virus)
+    def crear_mutante(self, posicion_inicial):
+        # metodo vacio para ser usado en las clases hijas
+        pass
 
 
 
 #--------------------------------------------------------------------------------------------------------
 
+# class Radiacion(Mutador):
+    
+    #   Esto lo habia escrito Enzo
+    
+    # def __init__(self, adn):
+    #     """
+    #     Constructor de la clase Radiacion.
+    #     :param adn: La matriz de ADN que se va a mutar.
+    #     """
+    #     super().__init__(adn)
+
+    # def crear_mutante(self, posicion_inicial, orientacion_de_la_mutacion):
+    #     """
+    #     Crea un mutante en la matriz dependiendo de la orientación (horizontal o vertical)
+    #     y genera 4 bases nitrogenadas 'T' consecutivas en la posición inicial.
+    #     :param posicion_inicial: La posición donde empieza la mutación (tupla de fila, columna).
+    #     :param orientacion_de_la_mutacion: Dirección de la mutación: "horizontal" o "vertical".
+    #     :return: La matriz de ADN mutada.
+    #     """
+    #     base_nitrogenada = 'T'
+
+    #     # Creamos una copia de la matriz para no modificar la original
+    #     matriz_mutada = [fila[:] for fila in self.adn]
+
+    #     # Validamos la orientación
+    #     if orientacion_de_la_mutacion == "horizontal":
+    #         fila, columna = posicion_inicial
+    #         # Verificar si hay espacio para las 4 bases 'T' consecutivas
+    #         if 0 <= fila < 6 and 0 <= columna < 6 and columna + 3 < 6:
+    #             # Colocamos las 4 bases 'T' consecutivas
+    #             for i in range(columna, columna + 4):
+    #                 matriz_mutada[fila][i] = base_nitrogenada
+    #         else:
+    #             raise ValueError("No hay suficiente espacio horizontal para colocar 4 bases 'T' consecutivas.")
+
+    #     elif orientacion_de_la_mutacion == "vertical":
+    #         fila, columna = posicion_inicial
+    #         # Verificar si hay espacio para las 4 bases 'T' consecutivas
+    #         if 0 <= columna < 6 and 0 <= fila < 6 and fila + 3 < 6:
+    #             # Colocamos las 4 bases 'T' consecutivas
+    #             for i in range(fila, fila + 4):
+    #                 matriz_mutada[i][columna] = base_nitrogenada
+    #         else:
+    #             raise ValueError("No hay suficiente espacio vertical para colocar 4 bases 'T' consecutivas.")
+
+    #     else:
+    #         raise ValueError("La orientación debe ser 'horizontal' o 'vertical'.")
+
+    #     return matriz_mutada
+    
+    
+    
+    # ----------------------  nueva Clase Radiacion -----------------------------------
 class Radiacion(Mutador):
-    def __init__(self, adn):
-        """
-        Constructor de la clase Radiacion.
-        :param adn: La matriz de ADN que se va a mutar.
-        """
-        super().__init__(adn)
+    
+    def __init__(self, matriz_adn, base_nitrogenada, intensidad_mutacion, direccion):
+        super().__init__(matriz_adn, base_nitrogenada, intensidad_mutacion)
+        self.direccion = direccion  # aca viene desde ejecutable la direccion vert u horiz
 
-    def crear_mutante(self, posicion_inicial, orientacion_de_la_mutacion):
-        """
-        Crea un mutante en la matriz dependiendo de la orientación (horizontal o vertical)
-        y genera 4 bases nitrogenadas 'T' consecutivas en la posición inicial.
-        :param posicion_inicial: La posición donde empieza la mutación (tupla de fila, columna).
-        :param orientacion_de_la_mutacion: Dirección de la mutación: "horizontal" o "vertical".
-        :return: La matriz de ADN mutada.
-        """
-        base_nitrogenada = 'T'
 
-        # Creamos una copia de la matriz para no modificar la original
-        matriz_mutada = [fila[:] for fila in self.adn]
+    def crear_mutante(self, posicion_inicial):
+        fila, columna = posicion_inicial
 
-        # Validamos la orientación
-        if orientacion_de_la_mutacion == "horizontal":
-            fila, columna = posicion_inicial
-            # Verificar si hay espacio para las 4 bases 'T' consecutivas
-            if 0 <= fila < 6 and 0 <= columna < 6 and columna + 3 < 6:
-                # Colocamos las 4 bases 'T' consecutivas
-                for i in range(columna, columna + 4):
-                    matriz_mutada[fila][i] = base_nitrogenada
-            else:
-                raise ValueError("No hay suficiente espacio horizontal para colocar 4 bases 'T' consecutivas.")
+        # convertir las filas de la matriza listas para poder modificarlas
+        for i in range(len(self.matriz_adn)):
+            self.matriz_adn[i] = list(self.matriz_adn[i])
 
-        elif orientacion_de_la_mutacion == "vertical":
-            fila, columna = posicion_inicial
-            # Verificar si hay espacio para las 4 bases 'T' consecutivas
-            if 0 <= columna < 6 and 0 <= fila < 6 and fila + 3 < 6:
-                # Colocamos las 4 bases 'T' consecutivas
-                for i in range(fila, fila + 4):
-                    matriz_mutada[i][columna] = base_nitrogenada
-            else:
-                raise ValueError("No hay suficiente espacio vertical para colocar 4 bases 'T' consecutivas.")
+        for _ in range(self.intensidad_mutacion):
+            self.matriz_adn[fila][columna] = self.base_nitrogenada
 
-        else:
-            raise ValueError("La orientación debe ser 'horizontal' o 'vertical'.")
+            # Modificar según la dirección
+            if self.direccion == "horizontal":
+                columna += 1
+                if columna >= len(self.matriz_adn[0]):
+                    break  # Evitar desbordar la matriz horizontalmente
+            elif self.direccion == "vertical":
+                fila += 1
+                if fila >= len(self.matriz_adn):
+                    break  # Evitar desbordar la matriz verticalmente
 
-        return matriz_mutada
-#-----------------------------------------------------------------------------------------------
+        # Convertir las filas de nuevo a strings si es necesario
+        for i in range(len(self.matriz_adn)):
+            self.matriz_adn[i] = ''.join(self.matriz_adn[i])
 
+        return self.matriz_adn
+
+    
+    
+    
+#----------------------------------- nueva clase radiacion --------------------------------------
+
+
+
+
+#----------------------------------- virus --------------------------------------
 class Virus(Mutador):
-    pass
+    def __init__(self, matriz_adn, base_nitrogenada, intensidad_mutacion):
+        # convertir las filas de la matriza listas para poder modificarlas
+        self.matriz_adn = [list(fila) for fila in matriz_adn]
+        super().__init__(self.matriz_adn, base_nitrogenada, intensidad_mutacion)
+
+    def crear_mutante(self, posicion_inicial):
+        fila, columna = posicion_inicial
+        
+        # aplicar la mutacion en la diagonal principal
+        for i in range(self.intensidad_mutacion):
+            if 0 <= fila + i < len(self.matriz_adn) and 0 <= columna + i < len(self.matriz_adn[0]):
+                self.matriz_adn[fila + i][columna + i] = self.base_nitrogenada
+        return self.matriz_adn
+
+
+
+
+#----------------------------------- virus --------------------------------------
+
+
 
 class Sanador(Detector):
     def __init__(self, adn, mutada):
@@ -197,7 +253,7 @@ class Sanador(Detector):
 
     def sanar_mutacion(self, adn):
         
-         # Usar solo las letras A, T, C, G  
+        # Usar solo las letras A, T, C, G  
         nuevas_letras = ['A', 'T', 'C', 'G']  
         
         # Reemplazar cada letra por una nueva letra aleatoria  
