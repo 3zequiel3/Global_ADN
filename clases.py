@@ -111,42 +111,88 @@ class Detector:
 
 
 #--------------------------------------------------------------------------------------------------------
-#Mutaqdor
+#Mutador
 
 class Mutador:
-    def __init__(self, base_nitrogenada, coordenadas=[]):
-        try:
-            # validamos que las bases nitrogenadas sean una opcion corrects A T C o G
-            if base_nitrogenada not in {'A', 'T', 'C', 'G'}:
-                raise ValueError("La base nitrogenada debe ser una de las siguientes: 'A', 'T', 'C', 'G'.")
-            self.base_nitrogenada = base_nitrogenada
+    def __init__(self, matriz_adn, base_nitrogenada, intensidad_mutacion):
+        self.matriz_adn = matriz_adn
+        self.base_nitrogenada = base_nitrogenada
+        self.intensidad_mutacion = intensidad_mutacion
+        self.posicion_mutacion = (0, 0)  # Siempre comienza desde (0, 0)
 
-            # validamos que las coordenadas esten detnro de la matriz de 6x6, osea los valores de 0 a 5
-            for coord in coordenadas:
-                if not (0 <= coord[0] < 6 and 0 <= coord[1] < 6):
-                    raise ValueError("Las coordenadas deben estar dentro de los límites de la matriz (0 a 5).")
-            self.coordenadas = coordenadas
-            
-            # estado de la mutazion, lo dejamos como un booleano que nos puede servir para mostrar un mensaje si la matriz fue mutada
-            self.mutacion_realizada = False
 
-        except ValueError as e:
-            print(f"Error al inicializar Mutador: {e}")
-    
-    # el metodo esta vacio para ser implementado en una subclase (radiacion o virus)
-    def crear_mutante(self):
-        pass  
-
+    def crear_mutante(self, posicion_inicial):
+        # metodo vacio para ser usado en las clases hijas
+        pass
 
 #--------------------------------------------------------------------------------------------------------
-
-
-
+    
+    
+    
+# ----------------------  nueva Clase Radiacion -----------------------------------
 class Radiacion(Mutador):
-    pass
+    
+    def __init__(self, matriz_adn, base_nitrogenada, intensidad_mutacion, direccion):
+        super().__init__(matriz_adn, base_nitrogenada, intensidad_mutacion)
+        self.direccion = direccion  # aca viene desde ejecutable la direccion vert u horiz
 
+
+    def crear_mutante(self, posicion_inicial):
+        fila, columna = posicion_inicial
+
+        # convertir las filas de la matriza listas para poder modificarlas
+        for i in range(len(self.matriz_adn)):
+            self.matriz_adn[i] = list(self.matriz_adn[i])
+
+        for _ in range(self.intensidad_mutacion):
+            self.matriz_adn[fila][columna] = self.base_nitrogenada
+
+            # Modificar según la dirección
+            if self.direccion == "horizontal":
+                columna += 1
+                if columna >= len(self.matriz_adn[0]):
+                    break  # Evitar desbordar la matriz horizontalmente
+            elif self.direccion == "vertical":
+                fila += 1
+                if fila >= len(self.matriz_adn):
+                    break  # Evitar desbordar la matriz verticalmente
+
+        # Convertir las filas de nuevo a strings si es necesario
+        for i in range(len(self.matriz_adn)):
+            self.matriz_adn[i] = ''.join(self.matriz_adn[i])
+
+        return self.matriz_adn
+
+    
+    
+    
+#----------------------------------- nueva clase radiacion --------------------------------------
+
+
+
+
+#----------------------------------- virus --------------------------------------
 class Virus(Mutador):
-    pass
+    def __init__(self, matriz_adn, base_nitrogenada, intensidad_mutacion):
+        # convertir las filas de la matriza listas para poder modificarlas
+        self.matriz_adn = [list(fila) for fila in matriz_adn]
+        super().__init__(self.matriz_adn, base_nitrogenada, intensidad_mutacion)
+
+    def crear_mutante(self, posicion_inicial):
+        fila, columna = posicion_inicial
+        
+        # aplicar la mutacion en la diagonal principal
+        for i in range(self.intensidad_mutacion):
+            if 0 <= fila + i < len(self.matriz_adn) and 0 <= columna + i < len(self.matriz_adn[0]):
+                self.matriz_adn[fila + i][columna + i] = self.base_nitrogenada
+        return self.matriz_adn
+
+
+
+
+#----------------------------------- virus --------------------------------------
+
+
 
 class Sanador(Detector):
     def __init__(self, adn, mutada):
@@ -155,7 +201,7 @@ class Sanador(Detector):
 
     def sanar_mutacion(self, adn):
         
-         # Usar solo las letras A, T, C, G  
+        # Usar solo las letras A, T, C, G  
         nuevas_letras = ['A', 'T', 'C', 'G']  
         
         # Reemplazar cada letra por una nueva letra aleatoria  
