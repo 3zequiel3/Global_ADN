@@ -47,7 +47,21 @@ Debemos ingresar 1 solo valor entre a, c, g o t (es indistintohacerlo con mayusc
 
 
 4: Sanar ADN:  (completar)
+   En este apartado el programa evalúa si el adn está mutado o no y lo guarda en una variabre booleana, y se muestra por pantalla el adn actual.
+   
+   Luego determina mediante un condicional if si se debe sanar o no.
 
+   Si el condicional resulta en verdadero:
+      
+      Se llamara al metodo sanar_mutaciones, el cual vuelve a evaluar si la mutación es verdadera o falsa.
+
+         Si la mutación es verdadera ejecutará un bloque de código para modificar el adn aleatoriamente, para luego volver a verificar si no está mutado, este proceso lo repetirá las veces que sea necesario. Y devolverá el adn sano.
+
+         Cuando se verificó que el adn está sano, muestra por pantalla el nuevo adn.
+
+
+   Si el condicional resulta en falso:
+      mostrará por pantalla que el adn ya está sano y que no hay necesidad de sanarlo.
 
 5: Salir
 
