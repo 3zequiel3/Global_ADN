@@ -129,6 +129,7 @@ def menu_adn(adn):
                         adn_sano = cadena.sanar_mutacion(adn_mutado)
 
                     cadena.adn = adn_sano
+                    adn = cadena.adn
 
                 elif op == 5:
                     print("Saliendo del programa...")

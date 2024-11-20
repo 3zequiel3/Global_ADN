@@ -215,6 +215,7 @@ class Sanador(Detector):
                     adn[i] = ''.join(random.choice(nuevas_letras) for _ in range(len(adn[i]))) 
             
             print(f"Adn sano: {adn}")
+            return adn
         else:
             print(">> SU ADN YA ESTÁ SANO <<")
 
