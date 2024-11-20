@@ -46,7 +46,7 @@ Debemos ingresar 1 solo valor entre a, c, g o t (es indistintohacerlo con mayusc
 
 
 
-4: Sanar ADN:  (completar)
+4: Sanar ADN:
    En este apartado el programa evalúa si el adn está mutado o no y lo guarda en una variabre booleana, y se muestra por pantalla el adn actual.
    
    Luego determina mediante un condicional if si se debe sanar o no.
