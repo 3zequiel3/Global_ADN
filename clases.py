@@ -150,7 +150,7 @@ class Virus(Mutador):
 
 class Sanador(Detector):
     def __init__(self, adn, mutada):
-        super().__init__(adn)
+        self.adn = adn
         self.mutada = mutada
 
     def sanar_mutacion(self, adn):
