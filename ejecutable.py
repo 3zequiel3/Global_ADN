@@ -119,8 +119,17 @@ def menu_adn(adn):
                     #---------------------- MUTADOR --------------------------
 
                 elif op == 4:
-                    # Aca va la logica para sanar ADN
-                    pass
+                    cadena = Sanador(adn, True)
+
+                    adn_mutado = cadena.adn
+
+                    print(f"Su adn: {cadena.adn}")
+
+                    if cadena.mutada == True:
+                        adn_sano = cadena.sanar_mutacion(adn_mutado)
+
+                    cadena.adn = adn_sano
+
                 elif op == 5:
                     print("Saliendo del programa...")
                     break
