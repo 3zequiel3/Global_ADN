@@ -150,7 +150,7 @@ class Virus(Mutador):
 
 class Sanador(Detector):
     def __init__(self, adn, mutada):
-        self.adn = adn
+        super().__init__(adn)
         self.mutada = mutada
 
     def sanar_mutacion(self, adn):
@@ -159,13 +159,18 @@ class Sanador(Detector):
         nuevas_letras = ['A', 'T', 'C', 'G']  
         
         # Reemplazar cada letra por una nueva letra aleatoria  
-        for i in range(len(adn)):  
-            adn[i] = ''.join(random.choice(nuevas_letras) for _ in range(len(adn[i])))  
-
-        #Detectar si el adn sano no tiene mutaciones
-        while Detector.detectar_diagonal_ascendente(self, adn) or Detector.detectar_diagonal_ascendente(self, adn) or Detector.detectar_horizontal(self, adn) or Detector.detectar_vertical(self, adn):
+        if Detector.detectar_diagonal_ascendente(self, adn) or Detector.detectar_diagonal_ascendente(self, adn) or Detector.detectar_horizontal(self, adn) or Detector.detectar_vertical(self, adn):
             for i in range(len(adn)):  
-                adn[i] = ''.join(random.choice(nuevas_letras) for _ in range(len(adn[i]))) 
+                adn[i] = ''.join(random.choice(nuevas_letras) for _ in range(len(adn[i])))  
+
+            #Detectar si el adn sano no tiene mutaciones
+            while Detector.detectar_diagonal_ascendente(self, adn) or Detector.detectar_diagonal_ascendente(self, adn) or Detector.detectar_horizontal(self, adn) or Detector.detectar_vertical(self, adn):
+                for i in range(len(adn)):  
+                    adn[i] = ''.join(random.choice(nuevas_letras) for _ in range(len(adn[i]))) 
+            
+            print(f"Adn sano: {adn}")
+        else:
+            print(">> SU ADN YA ESTÁ SANO <<")
 
         self.mutada = False  
         return adn  
