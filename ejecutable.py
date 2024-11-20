@@ -108,28 +108,45 @@ def menu_adn(adn):
                         mutacion = Virus(adn, base_nitrogenada, intensidad_mutacion)
 
                     # Aplicar la mutación desde la posición inicial (0, 0)
-                    resultado = mutacion.crear_mutante((0, 0))
+                    resultado_mut = mutacion.crear_mutante((0, 0))
 
+                    
+                    # Establecer mutacion en TRUE
+                    detector = Detector(adn)
+                    detector.mutacion = True
+                    adn = resultado_mut
+                    
                     # Mostrar el resultado de la mutación
                     print("\nResultados de la mutación:")
-                    for fila in resultado:
+                    for fila in resultado_mut:
                         print(' '.join(fila))
 
 
                     #---------------------- MUTADOR --------------------------
 
                 elif op == 4:
-                    cadena = Sanador(adn, True)
+                    # detectar si hay mutaciones y establecer estado en True o False
+                    detector = Detector(adn)
+                    detectar_mutacion = detector.detectar_mutaciones(adn)
+                    
+                    isMutant = detector.mutacion
+                    cadena = Sanador(adn, isMutant)
 
                     adn_mutado = cadena.adn
-
-                    print(f"Su adn: {cadena.adn}")
+                    
+                    print("\nADN actual:\n")
+                    for fila in cadena.adn:
+                        print(' '.join(fila))
 
                     if cadena.mutada == True:
                         adn_sano = cadena.sanar_mutacion(adn_mutado)
+                    else:
+                        print("\n>> SU ADN YA ESTÁ SANO, POR LO QUE NO ES NECESARIO SANARLO NUEVAMENTE <<")
 
                     cadena.adn = adn_sano
                     adn = cadena.adn
+                    # establecer estado de mutacion en False
+                    detector.mutacion = cadena.mutada
 
                 elif op == 5:
                     print("Saliendo del programa...")

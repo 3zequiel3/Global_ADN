@@ -14,7 +14,9 @@
 
  Luego nos dara True, las posiciones y la base nitrogenada que se repite en caso de tener una mutacion presente en la matriz
 
- Caso contrario dira False
+ En el caso de que no se detecten mutaciones aparecera el siguiente mensaje:
+
+ "Resultados de la detección: No se detectaron mutaciones en la matriz."
 
 3: Mutar ADN
 

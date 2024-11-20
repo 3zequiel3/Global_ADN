@@ -204,20 +204,24 @@ class Sanador(Detector):
         # Usar solo las letras A, T, C, G  
         nuevas_letras = ['A', 'T', 'C', 'G']  
         
+        
         # Reemplazar cada letra por una nueva letra aleatoria  
-        if Detector.detectar_diagonal_ascendente(self, adn) or Detector.detectar_diagonal_ascendente(self, adn) or Detector.detectar_horizontal(self, adn) or Detector.detectar_vertical(self, adn):
-            for i in range(len(adn)):  
-                adn[i] = ''.join(random.choice(nuevas_letras) for _ in range(len(adn[i])))  
+        
+        if self.mutada == True:
+            try:
+                for i in range(len(adn)):  
+                    adn[i] = ''.join(random.choice(nuevas_letras) for _ in range(len(adn[i])))  
 
             #Detectar si el adn sano no tiene mutaciones
-            while Detector.detectar_diagonal_ascendente(self, adn) or Detector.detectar_diagonal_ascendente(self, adn) or Detector.detectar_horizontal(self, adn) or Detector.detectar_vertical(self, adn):
-                for i in range(len(adn)):  
-                    adn[i] = ''.join(random.choice(nuevas_letras) for _ in range(len(adn[i]))) 
             
-            print(f"Adn sano: {adn}")
-            return adn
-        else:
-            print(">> SU ADN YA ESTÁ SANO <<")
+                while Detector.detectar_diagonal_ascendente(self, adn) or Detector.detectar_diagonal_ascendente(self, adn) or Detector.detectar_horizontal(self, adn) or Detector.detectar_vertical(self, adn):
+                    for i in range(len(adn)):  
+                        adn[i] = ''.join(random.choice(nuevas_letras) for _ in range(len(adn[i]))) 
+                print(f"\n\nADN sano:\n")
+                for fila in adn:
+                    print(' '.join(fila))
+                self.mutada = False  
+            except ValueError as e:
+                print(f"Error: {e}")
 
-        self.mutada = False  
         return adn  
