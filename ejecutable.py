@@ -25,7 +25,7 @@ def pedir_mostrar_cadena():
             elif op != "n":
                 raise ValueError("Opción no válida. Debes ingresar 'S' o 'N'.")
         except ValueError as e:
-            print(e)
+            print(f"Error {e}")
     return cadena_adn
 
 def menu():

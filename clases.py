@@ -2,91 +2,178 @@ import random
 import string
 
 class Detector:
+    """
+        Clase Detector encargada de detectar mutaciones en una matriz de ADN.
+
+        Atributos:
+        mutacion (bool): Indica si se ha detectado una mutación.
+        mensaje (str): Mensaje descriptivo de la mutación detectada.
+        matriz (list[str]): Matriz de ADN a analizar.
+        coordenadas_mutacion (list[tuple[int, int]]): Coordenadas de la mutación detectada.
+        """
     mutacion: bool = False
-    mensaje = ""
-    def __init__(self,matriz):
-        self.matriz = matriz
-        self.coordenadas_mutacion = []
-    def detectar_horizontal(self,matriz):
+    mensaje: str = ""
+    def __init__(self, matriz: list[str]) -> None:
+        """
+        Inicializa el Detector con una matriz de ADN.
+
+        Parámetros:
+                matriz (list[str]): Matriz de ADN representada como una lista de cadenas,
+                                    donde cada cadena representa una fila de ADN.
+
+        Retorna: None
+                """
+        self.matriz: list[str] = matriz
+        self.coordenadas_mutacion: list[tuple[int, int]] = []
+    def detectar_horizontal(self, matriz: list[str]) -> bool | tuple[bool, list[tuple[int, int]], str]:
+        """
+                Detecta mutaciones horizontales en la matriz de ADN.
+
+                Parámetros:
+                matriz (list[str]): Matriz de ADN representada como una lista de cadenas.
+
+                Retorna:
+                bool | tuple[bool, list[tuple[int, int]], str]:
+                    - Si se detecta una mutación, retorna un tuple con:
+                        - un valor booleano `True` indicando que se detectó una mutación.
+                        - las coordenadas de la mutación (lista de tuplas con las posiciones de la mutación).
+                        - un mensaje describiendo la mutación detectada.
+                    - Si no se detecta mutación, retorna `False`.
+                """
         try:
-            filas = len(matriz)
-            columnas = len(matriz[0])
+            filas: int = len(matriz)
+            columnas: int = len(matriz[0])
             for i in range(filas):
                 for j in range(columnas - 3):
-                    secuencia = [matriz[i][j], matriz[i][j + 1], matriz[i][j + 2], matriz[i][j + 3]]
+                    secuencia: list[str] = [matriz[i][j], matriz[i][j + 1], matriz[i][j + 2], matriz[i][j + 3]]
                     if secuencia[0] == secuencia[1] == secuencia[2] == secuencia[3]:
-                        self.mutacion = True
-                        self.coordenadas_mutacion = [(i, j), (i, j + 1), (i, j + 2), (i, j + 3)]
-                        self.mensaje = f"Mutacion horizontal:{secuencia}"
-                        return self.mutacion,self.coordenadas_mutacion, self.mensaje
-            self.mutacion = False
+                        self.mutacion: bool = True
+                        self.coordenadas_mutacion: list[tuple[int, int]] = [(i, j), (i, j + 1), (i, j + 2), (i, j + 3)]
+                        self.mensaje: str = f"Mutacion horizontal:{secuencia}"
+                        return self.mutacion, self.coordenadas_mutacion, self.mensaje
+            self.mutacion: bool = False
             return self.mutacion
         except IndexError:
             print("Error: La cadena de ADN no tiene las dimensiones adecuadas para detectar mutaciones.")
         except Exception as e:
             print(f"Error inesperado en detectar_horizontal: {e}")
 
-    def detectar_vertical(self,matriz):
+    def detectar_vertical(self, matriz: list[str]) -> bool | tuple[bool, list[tuple[int, int]], str]:
+        """
+               Detecta mutaciones verticales en la matriz de ADN.
+
+               Parámetros:
+               matriz (list[str]): Matriz de ADN representada como una lista de cadenas.
+
+               Retorna:
+               bool | tuple[bool, list[tuple[int, int]], str]:
+                   - Si se detecta una mutación, retorna un tuple con:
+                       - un valor booleano `True` indicando que se detectó una mutación.
+                       - las coordenadas de la mutación (lista de tuplas con las posiciones de la mutación).
+                       - un mensaje describiendo la mutación detectada.
+                   - Si no se detecta mutación, retorna `False`.
+               """
         try:
-            filas = len(matriz)
-            columnas = len(matriz[0])
+            filas: int = len(matriz)
+            columnas: int = len(matriz[0])
             for j in range(columnas):
                 for i in range(filas - 3):
-                    secuencia = [matriz[i][j], matriz[i + 1][j], matriz[i + 2][j], matriz[i + 3][j]]
+                    secuencia: list[str] = [matriz[i][j], matriz[i + 1][j], matriz[i + 2][j], matriz[i + 3][j]]
                     if secuencia[0] == secuencia[1] == secuencia[2] == secuencia[3]:
-                        self.mutacion = True
-                        self.coordenadas_mutacion = [(i,j),(i+1,j),(i+2,j),(i+3,j)]
-                        self.mensaje = f"Mutacion Vertical:{secuencia}"
-                        return self.mutacion,self.coordenadas_mutacion, self.mensaje
-            self.mutacion = False
+                        self.mutacion: bool = True
+                        self.coordenadas_mutacion: list[tuple[int, int]] = [(i, j), (i + 1, j), (i + 2, j), (i + 3, j)]
+                        self.mensaje: str = f"Mutacion Vertical:{secuencia}"
+                        return self.mutacion, self.coordenadas_mutacion, self.mensaje
+            self.mutacion: bool = False
             return self.mutacion
         except IndexError:
             print("Error: La cadena de ADN no tiene las dimensiones adecuadas para detectar mutaciones.")
         except Exception as e:
             print(f"Error inesperado en detectar_vertical: {e}")
 
+    def detectar_diagonal_descendente(self, matriz: list[str]) -> bool | tuple[bool, list[tuple[int, int]], str]:
+        """
+                Detecta mutaciones diagonales descendentes en la matriz de ADN.
 
-    def detectar_diagonal_descendente(self,matriz):
+                Parámetros:
+                matriz (list[str]): Matriz de ADN representada como una lista de cadenas.
+
+                Retorna:
+                bool | tuple[bool, list[tuple[int, int]], str]:
+                    - Si se detecta una mutación, retorna un tuple con:
+                        - un valor booleano `True` indicando que se detectó una mutación.
+                        - las coordenadas de la mutación (lista de tuplas con las posiciones de la mutación).
+                        - un mensaje describiendo la mutación detectada.
+                    - Si no se detecta mutación, retorna `False`.
+                """
         try:
-            filas = len(matriz)
-            columnas = len(matriz[0])
+            filas: int = len(matriz)
+            columnas: int = len(matriz[0])
             for i in range(filas - 3):
                 for j in range(columnas - 3):
-                    secuencia = [matriz[i][j], matriz[i + 1][j + 1], matriz[i + 2][j + 2], matriz[i + 3][j + 3]]
+                    secuencia: list[str] = [matriz[i][j], matriz[i + 1][j + 1], matriz[i + 2][j + 2],
+                                            matriz[i + 3][j + 3]]
                     if secuencia[0] == secuencia[1] == secuencia[2] == secuencia[3]:
-                        #diagonal descendente
-                        self.mutacion = True
-                        self.coordenadas_mutacion = [(i,j),(i+1,j+1),(i+2,j+2),(i+3,j+3)]
-                        self.mensaje = f"Mutacion Diagonal:{secuencia}"
+                        self.mutacion: bool = True
+                        self.coordenadas_mutacion: list[tuple[int, int]] = [(i, j), (i + 1, j + 1), (i + 2, j + 2),
+                                                                            (i + 3, j + 3)]
+                        self.mensaje: str = f"Mutacion Diagonal:{secuencia}"
                         return self.mutacion, self.coordenadas_mutacion, self.mensaje
-            self.mutacion = False
+            self.mutacion: bool = False
             return self.mutacion
         except IndexError:
             print("Error: La cadena de ADN no tiene las dimensiones adecuadas para detectar mutaciones.")
         except Exception as e:
             print(f"Error inesperado en detectar_diagonal: {e}")
 
-    def detectar_diagonal_ascendente(self,matriz):
+    def detectar_diagonal_ascendente(self, matriz: list[str]) -> bool | tuple[bool, list[tuple[int, int]], str]:
+        """
+                Detecta mutaciones diagonales ascendentes en la matriz de ADN.
+
+                Parámetros:
+                matriz (list[str]): Matriz de ADN representada como una lista de cadenas.
+
+                Retorna:
+                bool | tuple[bool, list[tuple[int, int]], str]:
+                    - Si se detecta una mutación, retorna un tuple con:
+                        - un valor booleano `True` indicando que se detectó una mutación.
+                        - las coordenadas de la mutación (lista de tuplas con las posiciones de la mutación).
+                        - un mensaje describiendo la mutación detectada.
+                    - Si no se detecta mutación, retorna `False`.
+                """
         try:
-            filas = len(matriz)
-            columnas = len(matriz[0])
+            filas: int = len(matriz)
+            columnas: int = len(matriz[0])
             for i in range(filas - 3):
-                for j in range(3,columnas):
-                    secuencia = [matriz[i][j], matriz[i + 1][j - 1], matriz[i + 2][j - 2], matriz[i + 3][j - 3]]
+                for j in range(3, columnas):
+                    secuencia: list[str] = [matriz[i][j], matriz[i + 1][j - 1], matriz[i + 2][j - 2], matriz[i + 3][j - 3]]
                     if secuencia[0] == secuencia[1] == secuencia[2] == secuencia[3]:
-                        # diagonal descendente
-                        self.mutacion = True
-                        self.coordenadas_mutacion = [(i, j), (i + 1, j - 1), (i + 2, j - 2), (i + 3, j - 3)]
-                        self.mensaje = f"Mutacion Diagonal:{secuencia}"
+                        self.mutacion: bool = True
+                        self.coordenadas_mutacion: list[tuple[int, int]] = [(i, j), (i + 1, j - 1), (i + 2, j - 2), (i + 3, j - 3)]
+                        self.mensaje: str = f"Mutacion Diagonal:{secuencia}"
                         return self.mutacion, self.coordenadas_mutacion, self.mensaje
-            self.mutacion = False
+            self.mutacion: bool = False
             return self.mutacion
         except IndexError:
             print("Error: La cadena de ADN no tiene las dimensiones adecuadas para detectar mutaciones.")
         except Exception as e:
             print(f"Error inesperado en detectar_diagonal: {e}")
 
-    def detectar_mutaciones(self,matriz):
+    def detectar_mutaciones(self, matriz: list[str]) -> str | tuple[bool, list[tuple[int, int]], str]:
+        """
+                Detecta mutaciones en todas las direcciones (horizontal, vertical y diagonal) en la matriz de ADN.
+
+                Parámetros:
+                matriz (list[str]): Matriz de ADN representada como una lista de cadenas.
+
+                Retorna:
+                str | tuple[bool, list[tuple[int, int]], str]:
+                    - Si se detecta una mutación, retorna un tuple con:
+                        - un valor booleano `True` indicando que se detectó una mutación.
+                        - las coordenadas de la mutación (lista de tuplas con las posiciones de la mutación).
+                        - un mensaje describiendo la mutación detectada.
+                    - Si no se detecta mutación, retorna el mensaje 'No se detectaron mutaciones'.
+                """
         try:
             if self.detectar_horizontal(matriz):
                 return self.mutacion, self.coordenadas_mutacion, self.mensaje
@@ -98,12 +185,12 @@ class Detector:
                 return self.mutacion, self.coordenadas_mutacion, self.mensaje
             else:
                 return "No se detectaron mutaciones en la matriz."
-        except Exception as e :
-             return f"Error en detectar_mutaciones: {self.mensaje if self.mensaje else str(e)}"
+        except Exception as e:
+            return f"Error en detectar_mutaciones: {self.mensaje if self.mensaje else str(e)}"
         finally:
             print("Método detectar_mutaciones finalizado.")
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.mutacion:
             return f"Mutacion encontrada{self.mensaje}"
         else:
@@ -197,9 +284,8 @@ class Radiacion(Mutador):
     
     
 #----------------------------------- nueva clase radiacion --------------------------------------
-
-
-
+    def crear_mutante(self):
+        pass
 
 #----------------------------------- virus --------------------------------------
 class Virus(Mutador):
