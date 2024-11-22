@@ -230,54 +230,83 @@ class Mutador:
 # ----------------------------Clase Radiacion -----------------------------------------
 class Radiacion(Mutador):
     """
-        Clase para realizar mutaciones por radiación en una matriz de ADN.
+    Clase que aplica mutaciones de tipo radiación a una matriz de ADN.
 
-        La mutación modifica las bases nitrogenadas en una dirección
-        específica (horizontal o vertical) a partir de una posición inicial.
-        """
+    La radiación muta las bases nitrogenadas de la matriz en una dirección específica
+    ("horizontal" o "vertical"), comenzando desde una posición inicial y propagándose
+    según la intensidad de mutación especificada.
+
+    Hereda de:
+        Mutador
+
+    Atributos:
+        matriz_adn (list[str]): La matriz de ADN a modificar.
+        base_nitrogenada (str): La base nitrogenada que se usará para realizar la mutación.
+        intensidad_mutacion (int): Cantidad de bases consecutivas que serán mutadas.
+        direccion (str): Dirección de la mutación ("horizontal" o "vertical").
+    """
+
     def __init__(self, matriz_adn: list[str], base_nitrogenada: str, intensidad_mutacion: int, direccion: str):
         """
-        inicializa la clase Radiacion con los parametros especificos
+        Inicializa la clase Radiacion con los parámetros específicos.
 
-        :param matriz_adn: lista de cadenas que representan el ADN
-        :param base_nitrogenada: base nitrogenada a aplicar en la mutacion
-        :param intensidad_mutacion: numero de posiciones a modificar
-        :param direccion: direccion de la mutacion ('horizontal' o 'vertical')
+        :param matriz_adn: Lista de cadenas que representan el ADN.
+        :param base_nitrogenada: Base nitrogenada a aplicar en la mutación.
+        :param intensidad_mutacion: Número de posiciones consecutivas a modificar.
+        :param direccion: Dirección de la mutación ('horizontal' o 'vertical').
         """
         super().__init__(matriz_adn, base_nitrogenada, intensidad_mutacion)
         self.direccion = direccion
 
     def crear_mutante(self, posicion_inicial: tuple[int, int]) -> list[str]:
         """
-        realiza la mutacion del ADN desde la posicion inicial en la direccion especificaad
+        Aplica la mutación de radiación en la matriz de ADN.
 
-        :param posicion_inicial: tupla con las coordenadas iniciales (fila, columna)
-        :return: La matriz de ADN mutada
+        Realiza la mutación desde una posición inicial en la dirección especificada,
+        modificando las bases nitrogenadas según la intensidad.
+
+        :param posicion_inicial: Tupla con las coordenadas iniciales de la mutación (fila, columna).
+        :return: La matriz de ADN mutada.
+        :raises IndexError: Si la posición inicial está fuera de los límites de la matriz.
+        :raises ValueError: Si ocurre un error inesperado durante la mutación.
         """
-        fila, columna = posicion_inicial
+        try:
+            fila, columna = posicion_inicial
 
-        # convertir las filas de la matriz a listas para permitir modificaciones
-        for i in range(len(self.matriz_adn)):
-            self.matriz_adn[i] = list(self.matriz_adn[i])
+            # Validar que la posición inicial está dentro de los límites de la matriz.
+            if not (0 <= fila < len(self.matriz_adn)) or not (0 <= columna < len(self.matriz_adn[0])):
+                raise IndexError("La posición inicial está fuera de los límites de la matriz de ADN.")
 
-        for _ in range(self.intensidad_mutacion):
-            self.matriz_adn[fila][columna] = self.base_nitrogenada
+            # Convertir las filas de la matriz a listas para permitir modificaciones.
+            for i in range(len(self.matriz_adn)):
+                self.matriz_adn[i] = list(self.matriz_adn[i])
 
-            # modificar segun la direccion
-            if self.direccion == "horizontal":
-                columna += 1
-                if columna >= len(self.matriz_adn[0]):
-                    break  # evitar desbordar la matriz horizontalmente
-            elif self.direccion == "vertical":
-                fila += 1
-                if fila >= len(self.matriz_adn):
-                    break  # evitar desbordar la matriz verticalmente
+            # Aplicar la mutación según la intensidad y la dirección.
+            for _ in range(self.intensidad_mutacion):
+                self.matriz_adn[fila][columna] = self.base_nitrogenada
 
-        # Convertir las filas de nuevo a strings
-        for i in range(len(self.matriz_adn)):
-            self.matriz_adn[i] = ''.join(self.matriz_adn[i])
+                if self.direccion == "horizontal":
+                    columna += 1
+                    if columna >= len(self.matriz_adn[0]):
+                        break  # Evitar desbordar la matriz horizontalmente.
+                elif self.direccion == "vertical":
+                    fila += 1
+                    if fila >= len(self.matriz_adn):
+                        break  # Evitar desbordar la matriz verticalmente.
 
-        return self.matriz_adn
+            # Convertir las filas de nuevo a cadenas.
+            for i in range(len(self.matriz_adn)):
+                self.matriz_adn[i] = ''.join(self.matriz_adn[i])
+
+            return self.matriz_adn
+
+        except IndexError as e:
+            print(f"Error: {e}")
+            raise  # Re-lanzar la excepción para que el llamador decida cómo manejarla.
+
+        except Exception as e:
+            print(f"Ha ocurrido un error inesperado: {e}")
+            raise ValueError("Error en la mutación de radiación.") from e
 
 
 #----------------------------------- virus --------------------------------------
