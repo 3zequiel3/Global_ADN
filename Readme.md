@@ -68,8 +68,8 @@
 
 > Integrantes del Grupo:
 
-- Cercola Enzo
-- Gonzalez Ezequiel
-- Monassa Joaquin
-- Saez Sebastian
-- Trione Luca
+- Cercola Enzo Fernando
+- Gonzalez Victor Ezequiel
+- Monassa Joaquin Emiliano
+- Saez Sebastian Francisco
+- Trione Martin Luca
