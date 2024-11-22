@@ -280,13 +280,6 @@ class Radiacion(Mutador):
         return self.matriz_adn
 
 
-    
-    
-    
-#----------------------------------- nueva clase radiacion --------------------------------------
-    def crear_mutante(self):
-        pass
-
 #----------------------------------- virus --------------------------------------
 class Virus(Mutador):
     """
@@ -325,9 +318,6 @@ class Virus(Mutador):
 
 
 #----------------------------------- virus --------------------------------------
-
-
-import random
 
 class Sanador(Detector):
     """
