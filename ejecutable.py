@@ -105,13 +105,16 @@ def menu_adn(adn: list[list[str]]) -> None:
 
                     if tipo_mutacion == "radiacion":
                         while True:
-                            direccion: str = input("¿En qué dirección deseas realizar la mutación? (horizontal o vertical): ").strip().lower()
+                            direccion: str = input(
+                                "¿En qué dirección deseas realizar la mutación? (horizontal o vertical): ").strip().lower()
                             if direccion in ["horizontal", "vertical"]:
                                 break
                             else:
                                 print("Error: Debes ingresar 'horizontal' o 'vertical'. Intenta nuevamente.")
 
+                        # Instancia la mutación por radiación
                         mutacion: Radiacion = Radiacion(adn, base_nitrogenada, intensidad_mutacion, direccion)
+
 
                     elif tipo_mutacion == "virus":
                         mutacion: Virus = Virus(adn, base_nitrogenada, intensidad_mutacion)

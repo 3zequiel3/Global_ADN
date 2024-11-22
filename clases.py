@@ -197,8 +197,8 @@ class Detector:
             return f"No se detecto ninguna mutacion"
 
 
-#--------------------------------------------------------------------------------------------------------
-#Mutador
+#---------------------------------clase mutador------------------------------------------------------------------
+
 class Mutador:
     def __init__(self, matriz_adn: list[list[str]], base_nitrogenada: str, intensidad_mutacion: int):
         """
@@ -224,17 +224,17 @@ class Mutador:
         pass
 
 
-#--------------------------------------------------------------------------------------------------------
+
     
     
-    
-# ----------------------  nueva Clase Radiacion -----------------------------------
+# ----------------------------Clase Radiacion -----------------------------------------
 class Radiacion(Mutador):
     """
-    Clase para realizar mutaciones por radiación en una matriz de ADN.
-    La mutación puede ser en dirección horizontal o vertical.
-    """
+        Clase para realizar mutaciones por radiación en una matriz de ADN.
 
+        La mutación modifica las bases nitrogenadas en una dirección
+        específica (horizontal o vertical) a partir de una posición inicial.
+        """
     def __init__(self, matriz_adn: list[str], base_nitrogenada: str, intensidad_mutacion: int, direccion: str):
         """
         inicializa la clase Radiacion con los parametros especificos
@@ -317,7 +317,7 @@ class Virus(Mutador):
 
 
 
-#----------------------------------- virus --------------------------------------
+#--------------------------------- Sanador --------------------------------------
 
 class Sanador(Detector):
     """
