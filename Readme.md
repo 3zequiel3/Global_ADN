@@ -39,7 +39,7 @@
       - Tendremos **2 opciones**:
         - **Radiación**: Aparecerá una pregunta adicional donde elegiremos en qué dirección se realizará la mutación.
           - **¿En qué dirección deseas realizar la mutación? (horizontal o vertical)**.
-        - **Virus**: Si elegimos **virus**, la mutación será **diagonal**.
+        - **Virus**: Si elegimos **virus**, la mutación será **diagonal (Principal o Secundaria, según el Usuario decida)**.
    
    - En ambos casos, el programa aplicará la mutación y mostrará el resultado en pantalla. Luego, volverá a mostrar el menú principal.
 
