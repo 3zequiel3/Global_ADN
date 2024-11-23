@@ -312,16 +312,16 @@ class Radiacion(Mutador):
 #----------------------------------- virus --------------------------------------
 class Virus(Mutador):
     """
-    Clase para realizar mutaciones por virus en la diagonal principal de una matriz de ADN.
+    Clase para realizar mutaciones por virus en la diagonal principal o secundaria de una matriz de ADN.
     """
 
     def __init__(self, matriz_adn: list[str], base_nitrogenada: str, intensidad_mutacion: int):
         """
-        Inicializa la clase Virus con los parametros especificos.
+        Inicializa la clase Virus con los parámetros específicos.
 
         :param matriz_adn: Lista de cadenas que representan el ADN.
-        :param base_nitrogenada: Base nitrogenada que sera aplicada en la mutacion.
-        :param intensidad_mutacion: Numero de posiciones a modificar en la diagonal principal.
+        :param base_nitrogenada: Base nitrogenada que será aplicada en la mutación.
+        :param intensidad_mutacion: Número de posiciones a modificar en la diagonal.
         """
         # Convertir las filas de la matriz a listas para permitir modificaciones
         matriz_convertida = [list(fila) for fila in matriz_adn]
@@ -329,19 +329,35 @@ class Virus(Mutador):
 
     def crear_mutante(self, posicion_inicial: tuple[int, int]) -> list[list[str]]:
         """
-        Realiza la mutacion del ADN en la diagonal principal desde la posicion inicial.
+        Realiza la mutación del ADN en la diagonal principal o secundaria desde la posición inicial.
 
         :param posicion_inicial: Tupla con las coordenadas iniciales (fila, columna).
         :return: La matriz de ADN mutada como lista de listas.
         """
-        fila, columna = posicion_inicial
+        try:
+            # Preguntar al usuario la dirección de la mutación
+            direccion = input("¿Desea que el virus se extienda en forma descendente (diagonal principal) o ascendente (diagonal secundaria)? (descendente/ascendente): ").strip().lower()
+            fila, columna = posicion_inicial
 
-        # Aplicar la mutacion en la diagonal principal
-        for i in range(self.intensidad_mutacion):
-            if 0 <= fila + i < len(self.matriz_adn) and 0 <= columna + i < len(self.matriz_adn[0]):
-                self.matriz_adn[fila + i][columna + i] = self.base_nitrogenada
-        return self.matriz_adn
+            # Validar la entrada del usuario
+            if direccion not in ["descendente", "ascendente"]:
+                print("Opción inválida. Se usará la extensión descendente (diagonal principal) por defecto.")
+                direccion = "descendente"
 
+            # Aplicar la mutación en la diagonal correspondiente
+            for i in range(self.intensidad_mutacion):
+                if direccion == "descendente":  # Diagonal principal
+                    if 0 <= fila + i < len(self.matriz_adn) and 0 <= columna + i < len(self.matriz_adn[0]):
+                        self.matriz_adn[fila + i][columna + i] = self.base_nitrogenada
+                elif direccion == "ascendente":  # Diagonal secundaria
+                    if 0 <= fila + i < len(self.matriz_adn) and 0 <= columna - i < len(self.matriz_adn[0]):
+                        self.matriz_adn[fila + i][columna - i] = self.base_nitrogenada
+
+            return self.matriz_adn
+
+        except Exception as e:
+            print(f"Error al realizar la mutación: {e}")
+            return self.matriz_adn  # Devuelve la matriz sin cambios en caso de error
 
 
 
